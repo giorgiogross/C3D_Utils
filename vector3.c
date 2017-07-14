@@ -1,26 +1,36 @@
 /****************************************************************************
-    MIT License
-
-    Copyright (c) 2017 Giorgio Groß
-
-    Permission is hereby granted, free of charge, to any person obtaining a copy
-    of this software and associated documentation files (the "Software"), to deal
-    in the Software without restriction, including without limitation the rights
-    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    copies of the Software, and to permit persons to whom the Software is
-    furnished to do so, subject to the following conditions:
-
-    The above copyright notice and this permission notice shall be included in all
-    copies or substantial portions of the Software.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    SOFTWARE.
-    
+ * examples/acceleration_calibration/vector.c
+ *
+ *   Copyright (C) 2017 Giorgio Groß. All rights reserved.
+ *   Author: Giorgio Groß <giorgio.gross@robodev.eu>
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in
+ *    the documentation and/or other materials provided with the
+ *    distribution.
+ * 3. Neither the name NuttX nor the names of its contributors may be
+ *    used to endorse or promote products derived from this software
+ *    without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
+ * OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+ * AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
  ****************************************************************************/
 
 /****************************************************************************
@@ -44,7 +54,7 @@
 // determine where vector memory is starting
 #define v0(v) (float*)(&(v))
 
-// traverse a 3x3 matrice of type matrice3x3_t pointed to by base_p (start pointer) 
+// traverse a 3x3 matrix of type matrix3x3_t pointed to by base_p (start pointer) 
 // and curr_p (pointer to current index) horizontally 
 #define TRAVERSE_HORIZONTAL_3X3(curr_p, base_p) \
         (curr_p - base_p) == 8 ? \
@@ -107,7 +117,7 @@ void vector3_normalize (vector3_t* U)
     multiply_vector3_scalar(U, *U, 1/length);
 }
 
-void multiply3x3_matrice_matrice (matrice3x3_t* res, matrice3x3_t A, matrice3x3_t B)
+void multiply3x3_matrix_matrix (matrix3x3_t* res, matrix3x3_t A, matrix3x3_t B)
 {
     float* a = m0(A);
     float* b = m0(B);
@@ -128,7 +138,7 @@ void multiply3x3_matrice_matrice (matrice3x3_t* res, matrice3x3_t A, matrice3x3_
     }
 }
 
-void multiply3x3_matrice_vector (vector3_t* res, matrice3x3_t A, vector3_t V)
+void multiply3x3_matrix_vector (vector3_t* res, matrix3x3_t A, vector3_t V)
 {
     float* a = m0(A);
     float* r = v0(*res);
@@ -174,7 +184,7 @@ void multiply_vector3_scalar (vector3_t* T, vector3_t U, float s)
     }
 }
 
-void orthonormalize3x3(matrice3x3_t* A)
+void orthonormalize3x3(matrix3x3_t* A)
 {
     float scalarProduct;
     vector3_t summand2;
@@ -203,7 +213,7 @@ void orthonormalize3x3(matrice3x3_t* A)
     vector3_normalize(&A->v3);
 }
 
-void transpose3x3(matrice3x3_t* A)
+void transpose3x3(matrix3x3_t* A)
 {
     float* horPntr = m0(*A);
     float* vertPntr = m0(*A);
@@ -227,7 +237,7 @@ void transpose3x3(matrice3x3_t* A)
     }
 }
 
-float det3x3(matrice3x3_t A)
+float det3x3(matrix3x3_t A)
 {
     float sum = 0;
     int c;
@@ -251,7 +261,7 @@ float det3x3(matrice3x3_t A)
     return sum;
 }
 
-void print3x3_matrice(matrice3x3_t A)
+void print3x3_matrix(matrix3x3_t A)
 {
     float* p = m0(A);
     int i;
